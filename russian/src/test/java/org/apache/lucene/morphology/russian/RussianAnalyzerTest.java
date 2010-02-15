@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.lucene.morphology.english;
+package org.apache.lucene.morphology.russian;
 
 import org.apache.lucene.analysis.Token;
 import org.apache.lucene.analysis.TokenStream;
@@ -29,24 +29,24 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 
-public class EnglishAnalayzerTest {
+public class RussianAnalyzerTest {
 
     @Test
     public void shoudGiveCorretWords() throws IOException {
-        InputStream stream = this.getClass().getResourceAsStream("/org/apache/lucene/morphology/english/englsih-analayzer-answer.txt");
+        InputStream stream = this.getClass().getResourceAsStream("/org/apache/lucene/morphology/russian/russian-analayzer-answer.txt");
         BufferedReader breader = new BufferedReader(new InputStreamReader(stream, "UTF-8"));
         String[] strings = breader.readLine().replaceAll(" +", " ").trim().split(" ");
         HashSet<String> answer = new HashSet<String>(Arrays.asList(strings));
         stream.close();
 
-        EnglishAnalyzer morphologyAnalyzer = new EnglishAnalyzer();
-        stream = this.getClass().getResourceAsStream("/org/apache/lucene/morphology/english/englsih-analayzer-data.txt");
+        RussianAnalyzer morphlogyAnalyzer = new RussianAnalyzer();
+        stream = this.getClass().getResourceAsStream("/org/apache/lucene/morphology/russian/russian-analayzer-data.txt");
 
         InputStreamReader reader = new InputStreamReader(stream, "UTF-8");
         final Token reusableToken = new Token();
 
         Token nextToken;
-        TokenStream in = morphologyAnalyzer.tokenStream(null, reader);
+        TokenStream in = morphlogyAnalyzer.tokenStream(null, reader);
         HashSet<String> result = new HashSet<String>();
         for (; ;) {
             nextToken = in.next(reusableToken);
@@ -56,6 +56,8 @@ public class EnglishAnalayzerTest {
             }
 
             result.add(nextToken.term());
+            //
+
         }
 
         stream.close();
@@ -63,3 +65,4 @@ public class EnglishAnalayzerTest {
         assertThat(result, equalTo(answer));
     }
 }
+
