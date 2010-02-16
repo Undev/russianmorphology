@@ -17,6 +17,7 @@ package org.apache.lucene.morphology.english;
 
 import org.apache.lucene.analysis.Token;
 import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.tokenattributes.TermAttribute;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 import org.junit.Test;
@@ -29,7 +30,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 
-public class EnglishAnalayzerTest {
+public class EnglishAnalyzerTest {
 
     @Test
     public void shoudGiveCorretWords() throws IOException {
@@ -43,19 +44,17 @@ public class EnglishAnalayzerTest {
         stream = this.getClass().getResourceAsStream("/org/apache/lucene/morphology/english/englsih-analayzer-data.txt");
 
         InputStreamReader reader = new InputStreamReader(stream, "UTF-8");
-        final Token reusableToken = new Token();
 
-        Token nextToken;
         TokenStream in = morphologyAnalyzer.tokenStream(null, reader);
+        TermAttribute term = in.addAttribute(TermAttribute.class);
         HashSet<String> result = new HashSet<String>();
         for (; ;) {
-            nextToken = in.next(reusableToken);
-
-            if (nextToken == null) {
+            if (!in.incrementToken()) {
                 break;
             }
+            result.add(term.term());
+            //
 
-            result.add(nextToken.term());
         }
 
         stream.close();
