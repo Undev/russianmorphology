@@ -96,10 +96,10 @@
                     <target>1.5</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <!--
+            <!-- <plugin>
+                <-
                  usage: http://code.google.com/p/maven-license-plugin/wiki/HowTo
-                -->
+                ->
                 <artifactId>maven-license-plugin</artifactId>
                 <groupId>com.mathieucarbou.mojo</groupId>
 
@@ -124,7 +124,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin> -->
         </plugins>
     </build>
 
