@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 
-public class PunctuationAnalyzer {
+public class PunctuationAnalyzer extends Analyzer{
     private LuceneMorphology luceneMorph;
 
     public PunctuationAnalyzer(LuceneMorphology luceneMorph) {
