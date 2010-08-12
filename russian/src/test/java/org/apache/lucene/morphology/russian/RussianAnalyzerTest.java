@@ -22,10 +22,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.ArrayList;
@@ -35,16 +32,54 @@ import java.util.List;
 public class RussianAnalyzerTest {
 
     @Test
-    public void shoudGiveCorrectWords() throws IOException {
+    public void shouldGiveCorrectWords() throws IOException {
         InputStream stream = this.getClass().getResourceAsStream("/org/apache/lucene/morphology/russian/russian-analayzer-answer.txt");
         BufferedReader breader = new BufferedReader(new InputStreamReader(stream, "UTF-8"));
         String[] strings = breader.readLine().replaceAll(" +", " ").trim().split(" ");
         HashSet<String> answer = new HashSet<String>(Arrays.asList(strings));
         stream.close();
 
-        RussianAnalyzer morphologyAnalyzer = new RussianAnalyzer();
+        RussianPunctuationAnalyzer morphologyAnalyzer = new RussianPunctuationAnalyzer();
         stream = this.getClass().getResourceAsStream("/org/apache/lucene/morphology/russian/russian-analayzer-data.txt");
 
+        InputStreamReader reader = new InputStreamReader(stream, "UTF-8");
+        TokenStream in = morphologyAnalyzer.tokenStream(null, reader);
+        TermAttribute term = in.addAttribute(TermAttribute.class);
+        HashSet<String> result = new HashSet<String>();
+        List<String> r2 = new ArrayList<String>();
+        for (; ;) {
+            if (!in.incrementToken()) {
+                break;
+            }
+            result.add(term.term());
+            r2.add(term.term());
+            //
+        }
+        stream.close();
+
+        for(int i = 0; i < strings.length; i++){
+            System.out.print("  " + strings[i]);
+        }
+        System.out.println("");
+        System.out.println("  vs  ");
+        for(int i = 0; i < r2.size(); i++){
+            System.out.print("  " + r2.get(i));
+        }
+        System.out.println("");
+        assertThat(result, equalTo(answer));
+    }
+
+    @Test
+    public void shouldCorrectlyParseWordsWithPunctuation() throws Exception {
+        RussianPunctuationAnalyzer morphologyAnalyzer = new RussianPunctuationAnalyzer();
+//        StringBufferInputStream stream = new StringBufferInputStream("");
+        InputStream stream = this.getClass().getResourceAsStream("/org/apache/lucene/morphology/russian/russian-analayzer-answer-2.txt");
+        BufferedReader breader = new BufferedReader(new InputStreamReader(stream, "UTF-8"));
+        String[] strings = breader.readLine().replaceAll(" +", " ").trim().split(" ");
+        HashSet<String> answer = new HashSet<String>(Arrays.asList(strings));
+        stream.close();
+
+        stream = this.getClass().getResourceAsStream("/org/apache/lucene/morphology/russian/russian-analayzer-data-2.txt");
         InputStreamReader reader = new InputStreamReader(stream, "UTF-8");
         TokenStream in = morphologyAnalyzer.tokenStream(null, reader);
         TermAttribute term = in.addAttribute(TermAttribute.class);
