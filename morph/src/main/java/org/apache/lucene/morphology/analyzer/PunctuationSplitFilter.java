@@ -20,6 +20,9 @@ public class PunctuationSplitFilter extends TokenFilter {
     public static final String TOKEN_TYPE_SYNONYM = "SYNONYM";
 
     private TermAttribute termAtt;
+    private PositionIncrementAttribute posIncrAtt;
+    private TypeAttribute typeAtt;
+
     private AttributeSource save;
     private PhrasePunctuationSplitter punctuationSplitter = new PhrasePunctuationSplitter();
     private Stack<State> phraseFormsStack = new Stack<State>();
@@ -27,6 +30,9 @@ public class PunctuationSplitFilter extends TokenFilter {
     public PunctuationSplitFilter(TokenStream tokenStream) {
         super(tokenStream);
         termAtt = addAttribute(TermAttribute.class);
+        posIncrAtt = addAttribute(PositionIncrementAttribute.class);
+        typeAtt = addAttribute(TypeAttribute.class);
+
         save = tokenStream.cloneAttributes();
         System.out.println("save = " + save);
     }
@@ -59,7 +65,7 @@ public class PunctuationSplitFilter extends TokenFilter {
         for(int i = 0; i < forms.size(); i++){
             save.restoreState(current);
             PunctuationSplitFilter.setTerm(save, forms.get(i));
-//            PunctuationSplitFilter.setPositionIncrement(save, 0);
+            PunctuationSplitFilter.setPositionIncrement(save, 0);
             phraseFormsStack.push(save.captureState());
         }
     }
@@ -86,9 +92,9 @@ public class PunctuationSplitFilter extends TokenFilter {
         attr.setTermBuffer(term);
     }
 
-//    public static void setPositionIncrement(AttributeSource source, int posIncr) {
-//        PositionIncrementAttribute attr = (PositionIncrementAttribute) source.addAttribute(PositionIncrementAttribute.class);
-//        attr.setPositionIncrement(posIncr);
-//    }
+    public static void setPositionIncrement(AttributeSource source, int posIncr) {
+        PositionIncrementAttribute attr = (PositionIncrementAttribute) source.addAttribute(PositionIncrementAttribute.class);
+        attr.setPositionIncrement(posIncr);
+    }
 
 }

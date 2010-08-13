@@ -74,8 +74,8 @@ public class MorphologyFilter extends TokenFilter {
         for(int i = 0; i < forms.size(); i++){
             save.restoreState(current);
             MorphologyFilter.setTerm(save, forms.get(i));
-//            MorphologyFilter.setType(save, TOKEN_TYPE_SYNONYM);
-//            MorphologyFilter.setPositionIncrement(save, 0);
+            MorphologyFilter.setType(save, TOKEN_TYPE_SYNONYM);
+            MorphologyFilter.setPositionIncrement(save, 0);
             synonymStack.push(save.captureState());
         }
     }
@@ -102,14 +102,14 @@ public class MorphologyFilter extends TokenFilter {
         attr.setTermBuffer(term);
     }
 
-//    public static void setType(AttributeSource source, String type) {
-//        TypeAttribute attr = (TypeAttribute) source.addAttribute(TypeAttribute.class);
-//        attr.setType(type);
-//    }
-//
-//    public static void setPositionIncrement(AttributeSource source, int posIncr) {
-//        PositionIncrementAttribute attr = (PositionIncrementAttribute) source.addAttribute(PositionIncrementAttribute.class);
-//        attr.setPositionIncrement(posIncr);
-//    }
+    public static void setType(AttributeSource source, String type) {
+        TypeAttribute attr = (TypeAttribute) source.addAttribute(TypeAttribute.class);
+        attr.setType(type);
+    }
+
+    public static void setPositionIncrement(AttributeSource source, int posIncr) {
+        PositionIncrementAttribute attr = (PositionIncrementAttribute) source.addAttribute(PositionIncrementAttribute.class);
+        attr.setPositionIncrement(posIncr);
+    }
 
 }
