@@ -37,8 +37,8 @@ public class PunctuationAnalyzer extends Analyzer{
 //        return new MorphologyFilter(result, luceneMorph);
 
         TokenStream result = new WhitespaceTokenizer(reader);
+        result = new PunctuationSplitFilter(result);
         result = new LowerCaseFilter(result);
-        result = new PunctuationSplitFilter(result); //
         return new MorphologyFilter(result, luceneMorph);
     }
 }

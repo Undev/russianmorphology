@@ -34,7 +34,6 @@ public class PunctuationSplitFilter extends TokenFilter {
         typeAtt = addAttribute(TypeAttribute.class);
 
         save = tokenStream.cloneAttributes();
-        System.out.println("save = " + save);
     }
 
     public boolean incrementToken() throws IOException {

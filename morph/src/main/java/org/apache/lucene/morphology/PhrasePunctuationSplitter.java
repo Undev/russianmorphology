@@ -1,9 +1,6 @@
 package org.apache.lucene.morphology;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.*;
 import java.util.regex.Pattern;
 
 /**
@@ -21,7 +18,6 @@ public class PhrasePunctuationSplitter {
     static {
          Arrays.sort(PUNCTUATION_MARKS);
     }
-    private static final Pattern PUNCT_REGEXP = Pattern.compile("[\\p{Punct}]");
 
     public List<String> split(String phrase) {
         if (!containsPunctuation(phrase)) {
@@ -42,10 +38,23 @@ public class PhrasePunctuationSplitter {
             }
         }
 //        Collections.reverse(results);
+        //remove empty terms
+        Iterator<String> iter = results.iterator();
+        while (iter.hasNext()) {
+            String s = iter.next();
+            if (s == null || s.trim().length() == 0){
+                iter.remove();
+            }
+        }
         return results;
     }
 
     public boolean containsPunctuation(String phrase) {
-        return PUNCT_REGEXP.matcher(phrase).find();
+        char[] phraseChars = phrase.toCharArray();
+        for (int i = 0; i < phraseChars.length; i++) {
+            char phraseChar = phraseChars[i];
+            if (Arrays.binarySearch(PUNCTUATION_MARKS, phraseChar) >= 0) return true;
+        }
+        return false;
     }
 }
