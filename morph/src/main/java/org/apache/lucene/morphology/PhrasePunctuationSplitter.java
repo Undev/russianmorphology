@@ -20,24 +20,17 @@ public class PhrasePunctuationSplitter {
     }
 
     public List<String> split(String phrase) {
-        if (!containsPunctuation(phrase)) {
+        if (lastIndexOfPunctuationMark(phrase) < 0) {
             return EMPTY_STRING_LIST;
         }
         List<String> results = new ArrayList<String>();
-//        String[] splittedPhrase = (PUNCT_REGEXP.split(phrase));
         String currentPhrase = phrase ;
         results.add(currentPhrase);
-        while(containsPunctuation(currentPhrase)) {
-            for (int i = 0; i < PUNCTUATION_MARKS.length; i++) {
-                int pmIndex = currentPhrase.lastIndexOf(PUNCTUATION_MARKS[i]);
-                if(pmIndex >= 0){
-                    currentPhrase = currentPhrase.substring(0, pmIndex);
-                    results.add(currentPhrase);
-                    break;
-                }
-            }
+        int lastMarkPos = -1;
+        while((lastMarkPos = lastIndexOfPunctuationMark(currentPhrase)) >= 0) {
+             currentPhrase = currentPhrase.substring(0, lastMarkPos);
+             results.add(currentPhrase);
         }
-//        Collections.reverse(results);
         //remove empty terms
         Iterator<String> iter = results.iterator();
         while (iter.hasNext()) {
@@ -49,12 +42,12 @@ public class PhrasePunctuationSplitter {
         return results;
     }
 
-    public boolean containsPunctuation(String phrase) {
+    public int lastIndexOfPunctuationMark(String phrase) {
         char[] phraseChars = phrase.toCharArray();
-        for (int i = 0; i < phraseChars.length; i++) {
+        for (int i = phraseChars.length -1; i >= 0 ; i--) {
             char phraseChar = phraseChars[i];
-            if (Arrays.binarySearch(PUNCTUATION_MARKS, phraseChar) >= 0) return true;
+            if (Arrays.binarySearch(PUNCTUATION_MARKS, phraseChar) >= 0) return i;
         }
-        return false;
+        return -1;
     }
 }

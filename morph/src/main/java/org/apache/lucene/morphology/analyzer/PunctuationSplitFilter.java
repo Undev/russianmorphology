@@ -45,7 +45,7 @@ public class PunctuationSplitFilter extends TokenFilter {
 
         if(!input.incrementToken()) return false;
 
-        if (!punctuationSplitter.containsPunctuation(termAtt.term())){
+        if (punctuationSplitter.lastIndexOfPunctuationMark(termAtt.term()) < 0){
             return true;
         }
 

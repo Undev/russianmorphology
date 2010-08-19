@@ -40,7 +40,9 @@ public class PhrasePunctuationSplitterTest {
         expectations.put("twitter.com", new String[]{"twitter.com", "twitter"});
         expectations.put("B.V.", new String[]{"B.V.", "B.V", "B"});
         expectations.put("CM-Doctor", new String[]{"CM-Doctor", "CM"});
+        expectations.put("games-2010.", new String[]{"games-2010.", "games-2010", "games"});
         expectations.put("Doctor", new String[]{});
+        expectations.put("Tu-154", new String[]{"Tu-154", "Tu"});
         expectations.put("222-33-22", new String[]{"222-33-22", "222-33", "222"});
 
         for (String k : expectations.keySet()) {
@@ -49,7 +51,7 @@ public class PhrasePunctuationSplitterTest {
             System.out.println("results = " + results);
             System.out.println("expectations = " + Arrays.asList(expectations.get(k)));
 
-//            Assert.assertArrayEquals(expectations.get(k), (String[])results.toArray(new String[]{}));
+            Assert.assertArrayEquals(expectations.get(k), (String[])results.toArray(new String[]{}));
         }
     }
 }
