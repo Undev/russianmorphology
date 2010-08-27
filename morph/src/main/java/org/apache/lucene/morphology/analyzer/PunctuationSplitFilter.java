@@ -24,7 +24,6 @@ public class PunctuationSplitFilter extends TokenFilter {
     private TypeAttribute typeAtt;
 
     private AttributeSource save;
-    private PhrasePunctuationSplitter punctuationSplitter = new PhrasePunctuationSplitter();
     private Stack<State> phraseFormsStack = new Stack<State>();
 
     public PunctuationSplitFilter(TokenStream tokenStream) {
@@ -45,7 +44,7 @@ public class PunctuationSplitFilter extends TokenFilter {
 
         if(!input.incrementToken()) return false;
 
-        if (punctuationSplitter.lastIndexOfPunctuationMark(termAtt.term()) < 0){
+        if (PhrasePunctuationSplitter.firstIndexOfPunctuationMark(termAtt.term()) < 0){
             return true;
         }
 
@@ -57,7 +56,7 @@ public class PunctuationSplitFilter extends TokenFilter {
     }
 
     private void addPhaseFormsToStack() throws IOException {
-        List<String> forms = punctuationSplitter.split(termAtt.term());
+        List<String> forms = PhrasePunctuationSplitter.split(termAtt.term());
         Collections.reverse(forms);
         if(forms.size() == 0) return;
         State current = captureState();

@@ -5,12 +5,12 @@ import java.util.regex.Pattern;
 
 /**
  * @author spariev
- * Splits word with punctuation marks (. , - , &, etc) inside on there marks, removing suffixs.
+ * Splits word on punctuation marks (. , - , &, etc).
  * Example
- * twitter.com -> [ twitter.com twitter ]
- * Б.В. -> [ "Б.В.", "Б.В", "Б" ]
- * СМ-Доктор -> [ "СМ-Доктор" "СМ" ]
- * 222-33-22 -> [222-33-22, 222-33, 222]
+ * twitter.com -> [twitter.com twitter com]
+ * Б.В. -> [ "Б.В.", "Б", "В" ]
+ * СМ-Доктор -> [ "СМ-Доктор" "СМ" "Доктор" ]
+ * 222-33-22 -> [222-33-22, 222, 33, 222]
  */
 public class PhrasePunctuationSplitter {
     private static final List<String> EMPTY_STRING_LIST = new ArrayList<String>();
@@ -19,18 +19,20 @@ public class PhrasePunctuationSplitter {
          Arrays.sort(PUNCTUATION_MARKS);
     }
 
-    public List<String> split(String phrase) {
-        if (lastIndexOfPunctuationMark(phrase) < 0) {
+    public static List<String> split(String phrase) {
+        if (firstIndexOfPunctuationMark(phrase) < 0) {
             return EMPTY_STRING_LIST;
         }
         List<String> results = new ArrayList<String>();
         String currentPhrase = phrase ;
         results.add(currentPhrase);
-        int lastMarkPos = -1;
-        while((lastMarkPos = lastIndexOfPunctuationMark(currentPhrase)) >= 0) {
-             currentPhrase = currentPhrase.substring(0, lastMarkPos);
-             results.add(currentPhrase);
+        int firstMarkPos = -1;
+        while((firstMarkPos = firstIndexOfPunctuationMark(currentPhrase)) >= 0) {
+            String subStr = currentPhrase.substring(0, firstMarkPos);
+            currentPhrase = currentPhrase.substring(firstMarkPos + 1, currentPhrase.length());
+            results.add(subStr);
         }
+        results.add(currentPhrase);
         //remove empty terms
         Iterator<String> iter = results.iterator();
         while (iter.hasNext()) {
@@ -42,9 +44,9 @@ public class PhrasePunctuationSplitter {
         return results;
     }
 
-    public int lastIndexOfPunctuationMark(String phrase) {
+    public static int firstIndexOfPunctuationMark(String phrase) {
         char[] phraseChars = phrase.toCharArray();
-        for (int i = phraseChars.length -1; i >= 0 ; i--) {
+        for (int i = 0; i < phraseChars.length; i++) {
             char phraseChar = phraseChars[i];
             if (Arrays.binarySearch(PUNCTUATION_MARKS, phraseChar) >= 0) return i;
         }

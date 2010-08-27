@@ -37,13 +37,13 @@ public class PhrasePunctuationSplitterTest {
     public void shouldCorrectlyParseWordsWithPunctuation() throws Exception {
         PhrasePunctuationSplitter splitter = new PhrasePunctuationSplitter();
         Map<String,String[]> expectations = new HashMap<String,String[]>();
-        expectations.put("twitter.com", new String[]{"twitter.com", "twitter"});
-        expectations.put("B.V.", new String[]{"B.V.", "B.V", "B"});
-        expectations.put("CM-Doctor", new String[]{"CM-Doctor", "CM"});
-        expectations.put("games-2010.", new String[]{"games-2010.", "games-2010", "games"});
+        expectations.put("twitter.com", new String[]{"twitter.com", "twitter", "com"});
+        expectations.put("B.V.", new String[]{"B.V.", "B", "V"});
+        expectations.put("CM-Doctor", new String[]{"CM-Doctor", "CM", "Doctor"});
+        expectations.put("games-2010.", new String[]{"games-2010.", "games", "2010"});
         expectations.put("Doctor", new String[]{});
-        expectations.put("Tu-154", new String[]{"Tu-154", "Tu"});
-        expectations.put("222-33-22", new String[]{"222-33-22", "222-33", "222"});
+        expectations.put("Tu-154", new String[]{"Tu-154", "Tu", "154"});
+        expectations.put("222-33-22", new String[]{"222-33-22", "222", "33", "22"});
 
         for (String k : expectations.keySet()) {
             List<String> results = splitter.split(k);
