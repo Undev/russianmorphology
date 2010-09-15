@@ -24,7 +24,7 @@ public class PhrasePunctuationSplitter {
             return EMPTY_STRING_LIST;
         }
         List<String> results = new ArrayList<String>();
-        String currentPhrase = phrase ;
+        String currentPhrase = phrase.trim() ;
         results.add(currentPhrase);
         int firstMarkPos = -1;
         while((firstMarkPos = firstIndexOfPunctuationMark(currentPhrase)) >= 0) {

@@ -43,7 +43,9 @@ public class PhrasePunctuationSplitterTest {
         expectations.put("games-2010.", new String[]{"games-2010.", "games", "2010"});
         expectations.put("Doctor", new String[]{});
         expectations.put("Tu-154", new String[]{"Tu-154", "Tu", "154"});
-        expectations.put("222-33-22", new String[]{"222-33-22", "222", "33", "22"});
+        expectations.put("Tu-154", new String[]{"Tu-154", "Tu", "154"});
+        expectations.put("Прет-а-Порте", new String[]{"Прет-а-Порте", "Прет", "а", "Порте"});
+        expectations.put("Металл-Трейд-М", new String[]{"Металл-Трейд-М", "Металл", "Трейд", "М"});
 
         for (String k : expectations.keySet()) {
             List<String> results = splitter.split(k);
