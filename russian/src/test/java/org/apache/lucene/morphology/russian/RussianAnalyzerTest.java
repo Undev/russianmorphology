@@ -15,7 +15,6 @@
  */
 package org.apache.lucene.morphology.russian;
 
-import org.apache.lucene.analysis.Token;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.TermAttribute;
 import static org.hamcrest.Matchers.equalTo;
@@ -33,14 +32,14 @@ public class RussianAnalyzerTest {
 
     @Test
     public void shouldGiveCorrectWords() throws IOException {
-        InputStream stream = this.getClass().getResourceAsStream("/org/apache/lucene/morphology/russian/russian-analayzer-answer.txt");
+        InputStream stream = this.getClass().getResourceAsStream("/org/apache/lucene/morphology/russian/russian-analyzer-answer.txt");
         BufferedReader breader = new BufferedReader(new InputStreamReader(stream, "UTF-8"));
         String[] strings = breader.readLine().replaceAll(" +", " ").trim().split(" ");
         HashSet<String> answer = new HashSet<String>(Arrays.asList(strings));
         stream.close();
 
         RussianPunctuationAnalyzer morphologyAnalyzer = new RussianPunctuationAnalyzer();
-        stream = this.getClass().getResourceAsStream("/org/apache/lucene/morphology/russian/russian-analayzer-data.txt");
+        stream = this.getClass().getResourceAsStream("/org/apache/lucene/morphology/russian/russian-analyzer-data.txt");
 
         InputStreamReader reader = new InputStreamReader(stream, "UTF-8");
         TokenStream in = morphologyAnalyzer.tokenStream(null, reader);
@@ -73,13 +72,13 @@ public class RussianAnalyzerTest {
     public void shouldCorrectlyParseWordsWithPunctuation() throws Exception {
         RussianPunctuationAnalyzer morphologyAnalyzer = new RussianPunctuationAnalyzer();
 //        StringBufferInputStream stream = new StringBufferInputStream("");
-        InputStream stream = this.getClass().getResourceAsStream("/org/apache/lucene/morphology/russian/russian-analayzer-answer-2.txt");
+        InputStream stream = this.getClass().getResourceAsStream("/org/apache/lucene/morphology/russian/russian-analyzer-answer-2.txt");
         BufferedReader breader = new BufferedReader(new InputStreamReader(stream, "UTF-8"));
         String[] strings = breader.readLine().replaceAll(" +", " ").trim().split(" ");
         HashSet<String> answer = new HashSet<String>(Arrays.asList(strings));
         stream.close();
 
-        stream = this.getClass().getResourceAsStream("/org/apache/lucene/morphology/russian/russian-analayzer-data-2.txt");
+        stream = this.getClass().getResourceAsStream("/org/apache/lucene/morphology/russian/russian-analyzer-data-2.txt");
         InputStreamReader reader = new InputStreamReader(stream, "UTF-8");
         TokenStream in = morphologyAnalyzer.tokenStream(null, reader);
         TermAttribute term = in.addAttribute(TermAttribute.class);
