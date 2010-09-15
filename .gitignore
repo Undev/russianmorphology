@@ -1,0 +1,7 @@
+*.ipr
+*.iml
+*.iws
+russian/target
+english/target
+morph/target
+dictionary-reader/target
