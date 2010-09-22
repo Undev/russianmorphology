@@ -57,7 +57,8 @@ public class MorphologyFilter extends TokenFilter {
 
         if(!input.incrementToken()) return false;
 
-        if (!luceneMorph.checkString(termAtt.term())){
+        if ((!luceneMorph.checkString(termAtt.term())) ||
+            (termAtt.term().trim().length() == 0)) {
             return true;
         }
         addAliasesToStack();
@@ -68,7 +69,8 @@ public class MorphologyFilter extends TokenFilter {
     }
 
     private void addAliasesToStack() throws IOException {
-        List<String> forms = luceneMorph.getNormalForms(termAtt.term());
+        String term = termAtt.term();
+        List<String> forms = luceneMorph.getNormalForms(term);
         if(forms.size() == 0) return;
         State current = captureState();
         for(int i = 0; i < forms.size(); i++){
