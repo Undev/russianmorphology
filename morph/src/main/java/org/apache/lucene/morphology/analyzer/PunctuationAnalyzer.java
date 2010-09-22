@@ -26,6 +26,9 @@ public class PunctuationAnalyzer extends Analyzer{
         replacementPairs.put('"',' ');
         replacementPairs.put('\'',' ');
         replacementPairs.put(':',' ');
+        replacementPairs.put('(',' ');
+        replacementPairs.put(')',' ');
+        replacementPairs.put('+',' ');
     }
 
     public PunctuationAnalyzer(String pathToMorph, LetterDecoderEncoder letterDecoderEncoder) throws IOException {
@@ -47,6 +50,8 @@ public class PunctuationAnalyzer extends Analyzer{
         result = new CharReplaceFilter(result, replacementPairs,true);
         result = new PunctuationSplitFilter(result);
         result = new LowerCaseFilter(result);
+        //trimming inner spaces left from first run of replace filter
+        result = new CharReplaceFilter(result, replacementPairs,true);
         return new MorphologyFilter(result, luceneMorph);
     }
 }

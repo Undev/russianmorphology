@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
  */
 public class PhrasePunctuationSplitter {
     private static final List<String> EMPTY_STRING_LIST = new ArrayList<String>();
-    private static char[] PUNCTUATION_MARKS = new char[]{'.', ',', '_', '/', '-', '@', '&', '\'' };
+    private static char[] PUNCTUATION_MARKS = new char[]{'.', ',', '_', '/', '-','+','@', '&', '\'', '(', ')', ' '};
     static {
          Arrays.sort(PUNCTUATION_MARKS);
     }
