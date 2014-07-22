@@ -4,7 +4,7 @@
     <groupId>org.apache.lucene.morphology</groupId>
     <artifactId>morphology</artifactId>
     <packaging>pom</packaging>
-    <version>0.8-SNAPSHOT</version>
+    <version>0.12-undev</version>
     <name>morphology</name>
     <url>http://maven.apache.org</url>
 
